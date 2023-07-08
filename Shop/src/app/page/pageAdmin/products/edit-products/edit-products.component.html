@@ -1,0 +1,215 @@
+<section>
+    <div class="relative mx-auto max-w-screen-xl px-4 py-8">
+        <form class="grid grid-cols-1 items-start gap-8 md:grid-cols-2" (ngSubmit)="onHandleSubmit()"
+            [formGroup]="formAddProduct">
+
+            <div class="grid grid-cols-2 gap-4 md:grid-cols-1">
+                <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelectImage($event)"
+                    formControlName="images">
+                    <ngx-dropzone-label>
+                        <div>
+                            <h2>Uploadt image</h2>
+                        </div>
+                        <img src="{{product.images}}" style="width: 100px;" alt="">
+                    </ngx-dropzone-label>
+                    <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
+                        [removable]="true" (removed)="onRemovem(f)">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                    </ngx-dropzone-image-preview>
+
+                </div>
+
+                <!-- <ngx-dropzone (change)="onSelectImage($event)" formControlName="images">
+                    <h1 style="margin-left: 5px; font-size: 11px;">Upload Main</h1>
+                    <img src="{{product.images}}" style="width: 100px;" alt="">
+                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemovem(f)">
+                        <ngx-dropzone-label *ngIf="this.url">
+                            {{ this.url| async}}
+                            {{f.name}}
+                        </ngx-dropzone-label>
+                        <ngx-dropzone-label *ngIf="!this.url">
+                            {{product.images|json}}
+                        </ngx-dropzone-label>
+                    </ngx-dropzone-preview>
+                </ngx-dropzone> -->
+            </div>
+
+            <div class="sticky top-0">
+
+
+                <div class="mt-8 flex justify-between">
+                    <div class="max-w-[35ch] space-y-2">
+                        <input type="text" id="FirstName" placeholder="name" formControlName="name"
+                            class="mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm" />
+
+                        <div class="p-2 text-red-500">
+                            <div *ngIf=" formAddProduct.get('name')?.hasError('required')">Trường này không được để
+                                trống.</div>
+                            <div *ngIf=" formAddProduct.get('name')?.hasError('minLength')">Trường này nhập tối thiểu 10
+                                ký tự
+                                !.</div>
+                            <div *ngIf=" formAddProduct.get('name')?.hasError('maxLength')">Trường này nhập tối đa 40 ký
+                                tự !.
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="text-lg ml-2">
+                        <input type="number" id="FirstName" placeholder="price" formControlName="price"
+                            class="mt-1 w-[70%] rounded-md border-gray-200 shadow-sm sm:text-sm" />
+                        <div class="p-2 text-red-500">
+                            <div *ngIf=" formAddProduct.get('price')?.hasError('required')">Trường này không được để
+                                trống.
+                            </div>
+                            <div *ngIf=" formAddProduct.get('price')?.hasError('min')">Trường này nhập giá tối thiểu là
+                                10!.
+                            </div>
+                            <div *ngIf=" formAddProduct.get('price')?.hasError('max')">Trường này nhập giá tối đa 9999
+                                !.
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+                    <div class="prose max-w-none">
+                        <textarea name="" id="" cols="52" rows="4" placeholder="Description"
+                            formControlName="description"
+                            class="rounded-md border-gray-200 shadow-sm sm:text-sm mt-2"></textarea>
+                        <div class="p-2 text-red-500">
+                            <div *ngIf=" formAddProduct.get('description')?.hasError('required')">Trường này không được
+                                để
+                                trống.</div>
+                            <div *ngIf=" formAddProduct.get('description')?.hasError('minLength')">Trường này nhập tối
+                                thiểu 10
+                                ký tự
+                                !.</div>
+                            <div *ngIf=" formAddProduct.get('description')?.hasError('maxLength')">Trường này nhập tối
+                                đa 120 ký
+                                tự !.
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-8 ">
+                    <div class="grid grid-cols-1 gap-4 text-center sm:grid-cols-2">
+                        <fieldset>
+                            <legend class="mb-1 text-sm font-medium ml-[-90px]">Color</legend>
+
+                            <div class="flex flex-wrap gap-1">
+                                <select formControlName="color"
+                                    class="relative w-[80%] rounded-t-md border-gray-200 focus:z-10 sm:text-sm">
+                                    <option value="">Select color </option>
+                                    <option *ngFor="let color of color" [value]="color">{{color}}</option>
+                                </select>
+
+
+
+
+                            </div>
+                            <div class="p-2 text-red-500">
+                                <div *ngIf=" formAddProduct.get('color')?.hasError('required')">Trường này không được để
+                                    trống.</div>
+
+
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend class="mb-1 text-sm font-medium ml-[-90px]">Size</legend>
+
+                            <div class="flex flex-wrap gap-1">
+                                <select formControlName="size"
+                                    class="relative w-[80%] rounded-t-md border-gray-200 focus:z-10 sm:text-sm">
+                                    <option value="">Select size </option>
+
+                                    <option *ngFor="let size of size" [value]="size">{{size}}</option>
+
+                                </select>
+                                <div class="p-2 text-red-500">
+                                    <div *ngIf=" formAddProduct.get('size')?.hasError('required')">Trường này không được
+                                        để
+                                        trống.</div>
+
+
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+
+                    <div class="mt-10 grid grid-cols-1 gap-4 text-center sm:grid-cols-2">
+                        <div>
+                            <label for="Quantity" class="mr-[200px] mb-1 text-sm font-medium"> Quantity </label>
+                            <div class="flex items-center border border-gray-200 rounded">
+
+
+                                <input type="number" id="Quantity" value="1" formControlName="count"
+                                    class="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none" />
+
+
+                            </div>
+                            <div class="p-2 text-red-500">
+                                <div *ngIf=" formAddProduct.get('count')?.hasError('required')">Trường này không
+                                    được để
+                                    trống.</div>
+                                <div *ngIf=" formAddProduct.get('count')?.hasError('minLength')">Trường này nhập tối
+                                    thiểu 1
+                                    ký tự
+                                    !.</div>
+                                <div *ngIf=" formAddProduct.get('count')?.hasError('maxLength')">Trường này nhập tối
+                                    đa 9999 ký
+                                    tự !.
+                                </div>
+                                <div *ngIf=" formAddProduct.get('count')?.hasError('min')">Trường này nhập tối
+                                    thiểu từ 1 !.
+                                </div>
+
+                            </div>
+                        </div>
+                        <div>
+                            <fieldset>
+                                <legend class="mb-1 text-sm font-medium ml-[-90px]">Categorys</legend>
+
+                                <div class="flex flex-wrap gap-1">
+                                    <select class="relative w-[80%] rounded-t-md border-gray-200 focus:z-10 sm:text-sm"
+                                        formControlName="categoryId">
+                                        <option value="">Select categorys </option>
+                                        <option *ngFor="let item of category" [ngValue]="item.id">
+                                            {{item.name}}
+                                        </option>
+
+                                    </select>
+                                </div>
+                                <div class="p-2 text-red-500">
+                                    <div *ngIf=" formAddProduct.get('categoryId')?.hasError('required')">Trường này
+                                        không được để
+                                        trống.</div>
+
+
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <button type="submit" [disabled]="formAddProduct.invalid"
+                        class="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto">
+                        Add Products
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
